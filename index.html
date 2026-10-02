@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>合計計算</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f3f4f6;
+      font-family: Arial, "Noto Sans JP", sans-serif;
+      color: #222;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    .total-box {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .total-label {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 3px;
+    }
+
+    #total {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .input-list {
+      background: white;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .number {
+      width: 35px;
+      text-align: right;
+      color: #666;
+      font-size: 14px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      height: 44px;
+      padding: 5px 10px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: right;
+    }
+
+    input:focus {
+      outline: none;
+      border: 2px solid #4285f4;
+    }
+
+    .button-area {
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      height: 45px;
+      border: none;
+      border-radius: 8px;
+      background: #555;
+      color: white;
+      font-size: 16px;
+    }
+
+    button:active {
+      background: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="total-box">
+      <div class="total-label">合計</div>
+      <div id="total">0</div>
+    </div>
+
+    <div class="input-list">
+
+      <div class="row"><span class="number">1</span><input type="number"></div>
+      <div class="row"><span class="number">2</span><input type="number"></div>
+      <div class="row"><span class="number">3</span><input type="number"></div>
+      <div class="row"><span class="number">4</span><input type="number"></div>
+      <div class="row"><span class="number">5</span><input type="number"></div>
+      <div class="row"><span class="number">6</span><input type="number"></div>
+      <div class="row"><span class="number">7</span><input type="number"></div>
+      <div class="row"><span class="number">8</span><input type="number"></div>
+      <div class="row"><span class="number">9</span><input type="number"></div>
+      <div class="row"><span class="number">10</span><input type="number"></div>
+      <div class="row"><span class="number">11</span><input type="number"></div>
+      <div class="row"><span class="number">12</span><input type="number"></div>
+      <div class="row"><span class="number">13</span><input type="number"></div>
+      <div class="row"><span class="number">14</span><input type="number"></div>
+      <div class="row"><span class="number">15</span><input type="number"></div>
+      <div class="row"><span class="number">16</span><input type="number"></div>
+      <div class="row"><span class="number">17</span><input type="number"></div>
+      <div class="row"><span class="number">18</span><input type="number"></div>
+      <div class="row"><span class="number">19</span><input type="number"></div>
+      <div class="row"><span class="number">20</span><input type="number"></div>
+      <div class="row"><span class="number">21</span><input type="number"></div>
+      <div class="row"><span class="number">22</span><input type="number"></div>
+      <div class="row"><span class="number">23</span><input type="number"></div>
+      <div class="row"><span class="number">24</span><input type="number"></div>
+      <div class="row"><span class="number">25</span><input type="number"></div>
+      <div class="row"><span class="number">26</span><input type="number"></div>
+      <div class="row"><span class="number">27</span><input type="number"></div>
+      <div class="row"><span class="number">28</span><input type="number"></div>
+      <div class="row"><span class="number">29</span><input type="number"></div>
+      <div class="row"><span class="number">30</span><input type="number"></div>
+      <div class="row"><span class="number">31</span><input type="number"></div>
+      <div class="row"><span class="number">32</span><input type="number"></div>
+      <div class="row"><span class="number">33</span><input type="number"></div>
+      <div class="row"><span class="number">34</span><input type="number"></div>
+      <div class="row"><span class="number">35</span><input type="number"></div>
+      <div class="row"><span class="number">36</span><input type="number"></div>
+      <div class="row"><span class="number">37</span><input type="number"></div>
+      <div class="row"><span class="number">38</span><input type="number"></div>
+      <div class="row"><span class="number">39</span><input type="number"></div>
+      <div class="row"><span class="number">40</span><input type="number"></div>
+      <div class="row"><span class="number">41</span><input type="number"></div>
+      <div class="row"><span class="number">42</span><input type="number"></div>
+      <div class="row"><span class="number">43</span><input type="number"></div>
+      <div class="row"><span class="number">44</span><input type="number"></div>
+      <div class="row"><span class="number">45</span><input type="number"></div>
+      <div class="row"><span class="number">46</span><input type="number"></div>
+      <div class="row"><span class="number">47</span><input type="number"></div>
+      <div class="row"><span class="number">48</span><input type="number"></div>
+      <div class="row"><span class="number">49</span><input type="number"></div>
+      <div class="row"><span class="number">50</span><input type="number"></div>
+
+      <div class="button-area">
+        <button onclick="clearAll()">入力を全部クリア</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll("input");
+    const total = document.getElementById("total");
+
+    function calculate() {
+      let sum = 0;
+
+      inputs.forEach(input => {
+        const value = parseFloat(input.value);
+        if (!isNaN(value)) {
+          sum += value;
+        }
+      });
+
+      total.textContent = sum.toLocaleString();
+    }
+
+    function saveData() {
+      const data = [];
+
+      inputs.forEach(input => {
+        data.push(input.value);
+      });
+
+      localStorage.setItem("totalAppData", JSON.stringify(data));
+    }
+
+    function loadData() {
+      const saved = localStorage.getItem("totalAppData");
+
+      if (saved) {
+        const data = JSON.parse(saved);
+
+        inputs.forEach((input, index) => {
+          if (data[index] !== undefined) {
+            input.value = data[index];
+          }
+        });
+      }
+
+      calculate();
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        calculate();
+        saveData();
+      });
+    });
+
+    function clearAll() {
+      if (confirm("すべての入力を消しますか？")) {
+        inputs.forEach(input => {
+          input.value = "";
+        });
+
+        localStorage.removeItem("totalAppData");
+        calculate();
+      }
+    }
+
+    loadData();
+  </script>
+
+</body>
+</html>
