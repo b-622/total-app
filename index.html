@@ -313,5 +313,16 @@
   function clearAll() {
     if (confirm("すべての入力を消しますか？")) {
       inputs.forEach(input => {
-        input.value = "
-```
+        input.value = "";
+      });
+
+      localStorage.removeItem("totalAppData");
+      calculate();
+    }
+  }
+
+  loadData();
+</script>
+
+</body>
+</html>
