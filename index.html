@@ -348,6 +348,17 @@
     }
   }
 
+  inputs.forEach(input => {
+    input.addEventListener("focus", () => {
+      const length = input.value.length;
+      setTimeout(() => {
+        try {
+          input.setSelectionRange(length, length);
+        } catch (e) {}
+      }, 0);
+    });
+  });
+
   loadData();
 </script>
 
