@@ -38,7 +38,7 @@
       margin: 0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       text-align: center;
-      width: 100vw;
+      width: 100%;
     }
 
     .total-label {
@@ -269,4 +269,132 @@
       <div class="item"><span class="item-name">カイダン</span><input type="number" data-name="ビデ_カイダン" data-weight="13"></div>
       <div class="item"><span class="item-name">カイダン手摺</span><input type="number" data-name="ビデ_カイダン手摺" data-weight="4"></div>
       <div class="item"><span class="item-name">ロウソク</span><input type="number" data-name="ビデ_ロウソク" data-weight="3.6"></div>
+      <div class="item"><span class="item-name">エンドストッパー</span><input type="number" data-name="ビデ_エンドストッパー" data-weight="3.25"></div>
+      <div class="item"><span class="item-name">ジャッキ</span><input type="number" data-name="ビデ_ジャッキ" data-weight="3.8"></div>
+      <div class="item"><span class="item-name">ロングジャッキ</span><input type="number" data-name="ビデ_ロングジャッキ" data-weight="5.2"></div>
+      <div class="item"><span class="item-name">ジャッキ自在</span><input type="number" data-name="ビデ_ジャッキ自在" data-weight="3.6"></div>
+      <div class="item"><span class="item-name">セーフティガード</span><input type="number" data-name="ビデ_セーフティガード" data-weight="13.5"></div>
+    </div>
+
+  </div>
+
+  <div class="button-area">
+    <button onclick="clearAll()">入力を全部クリア</button>
+  </div>
+
+</div>
+
+<script>
+  const inputs = document.querySelectorAll("input");
+  const total = document.getElementById("total");
+  const storageKey = "totalAppDataV2";
+
+  function calculate() {
+    let sum = 0;
+
+    inputs.forEach(input => {
+      const quantity = parseFloat(input.value);
+      const weight = parseFloat(input.dataset.weight);
+
+      if (!isNaN(quantity) && !isNaN(weight)) {
+        sum += quantity * weight;
+      }
+    });
+
+    total.innerHTML = sum.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 3
+    }) + '<span class="unit">kg</span>';
+  }
+
+  function saveData() {
+    const data = {};
+
+    inputs.forEach(input => {
+      data[input.dataset.name] = input.value;
+    });
+
+    localStorage.setItem(storageKey, JSON.stringify(data));
+  }
+
+  function loadData() {
+    const saved = localStorage.getItem(storageKey);
+
+    if (saved) {
+      const data = JSON.parse(saved);
+
+      inputs.forEach(input => {
+        if (data[input.dataset.name] !== undefined) {
+          input.value = data[input.dataset.name];
+        }
+      });
+    }
+
+    calculate();
+  }
+
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      calculate();
+      saveData();
+    });
+  });
+
+  function clearAll() {
+    if (confirm("すべての入力を消しますか？")) {
+      inputs.forEach(input => {
+        input.value = "";
+      });
+
+      localStorage.removeItem(storageKey);
+      calculate();
+    }
+  }
+
+  loadData();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js');
+    });
+  }
+</script>
+
+<script>
+  // 「総重量」はposition: fixedのまま固定する
+  // 拡大・縮小時は文字サイズだけを逆補正する
+  function updateTotalFontSize() {
+    const totalLabel = document.querySelector('.total-label');
+    const totalNumber = document.querySelector('#total');
+    const unit = document.querySelector('.unit');
+
+    if (!window.visualViewport) {
+      return;
+    }
+
+    const scale = window.visualViewport.scale || 1;
+
+    // 基準サイズを拡大率で逆補正
+    totalLabel.style.fontSize = (16 / scale) + 'px';
+    totalNumber.style.fontSize = (30 / scale) + 'px';
+    unit.style.fontSize = (18 / scale) + 'px';
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener(
+      'resize',
+      updateTotalFontSize
+    );
+  }
+
+  window.addEventListener('resize', updateTotalFontSize);
+  window.addEventListener('load', updateTotalFontSize);
+
+  updateTotalFontSize();
+</script>
+
+</body>
+</html>
 ```
