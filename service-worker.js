@@ -1,4 +1,5 @@
-const CACHE_NAME = "total-app-v4";
+```javascript
+const CACHE_NAME = "total-app-v5";
 
 const FILES_TO_CACHE = [
   "./",
@@ -10,6 +11,7 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
+
   self.skipWaiting();
 });
 
@@ -23,6 +25,7 @@ self.addEventListener("activate", event => {
       )
     )
   );
+
   self.clients.claim();
 });
 
@@ -54,3 +57,4 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+```
