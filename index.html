@@ -38,7 +38,7 @@
       margin: 0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       text-align: center;
-      width: 100%;
+      width: 100vw;
     }
 
     .total-label {
@@ -363,20 +363,27 @@
 </script>
 
 <script>
-  // 「総重量」はposition: fixedのまま固定する
-  // 拡大・縮小時は文字サイズだけを逆補正する
-  function updateTotalFontSize() {
+  // 拡大・縮小しても「総重量」を実際に見えている画面の上端へ固定する
+  // さらに、フォントサイズだけ拡大率に応じて逆補正する
+  function updateTotalPosition() {
+    const totalBox = document.querySelector('.total-box');
     const totalLabel = document.querySelector('.total-label');
     const totalNumber = document.querySelector('#total');
     const unit = document.querySelector('.unit');
+    const viewport = window.visualViewport;
 
-    if (!window.visualViewport) {
+    if (!totalBox || !viewport) {
       return;
     }
 
-    const scale = window.visualViewport.scale || 1;
+    const scale = viewport.scale || 1;
 
-    // 基準サイズを拡大率で逆補正
+    // 画面上で見えている位置に固定
+    totalBox.style.top = viewport.offsetTop + 'px';
+    totalBox.style.left = viewport.offsetLeft + 'px';
+    totalBox.style.width = viewport.width + 'px';
+
+    // フォントサイズだけ拡大率を逆補正
     totalLabel.style.fontSize = (16 / scale) + 'px';
     totalNumber.style.fontSize = (30 / scale) + 'px';
     unit.style.fontSize = (18 / scale) + 'px';
@@ -385,14 +392,19 @@
   if (window.visualViewport) {
     window.visualViewport.addEventListener(
       'resize',
-      updateTotalFontSize
+      updateTotalPosition
+    );
+
+    window.visualViewport.addEventListener(
+      'scroll',
+      updateTotalPosition
     );
   }
 
-  window.addEventListener('resize', updateTotalFontSize);
-  window.addEventListener('load', updateTotalFontSize);
+  window.addEventListener('resize', updateTotalPosition);
+  window.addEventListener('load', updateTotalPosition);
 
-  updateTotalFontSize();
+  updateTotalPosition();
 </script>
 
 </body>
