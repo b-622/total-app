@@ -38,7 +38,7 @@
       margin: 0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       text-align: center;
-      width: 100vw;
+      width: 100%;
     }
 
     .total-label {
@@ -405,6 +405,18 @@
   window.addEventListener('load', updateTotalPosition);
 
   updateTotalPosition();
+</script>
+
+<script>
+  // 数量入力をタップしたらカーソルを右端へ移動
+  inputs.forEach(input => {
+    input.addEventListener("focus", () => {
+      setTimeout(() => {
+        const length = input.value.length;
+        input.setSelectionRange(length, length);
+      }, 0);
+    });
+  });
 </script>
 
 </body>
