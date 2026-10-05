@@ -30,7 +30,6 @@
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
       z-index: 1000;
       background: white;
       border-radius: 0 0 12px 12px;
@@ -38,6 +37,7 @@
       margin: 0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       text-align: center;
+      width: 100vw;
     }
 
     .total-label {
@@ -359,6 +359,32 @@
       navigator.serviceWorker.register('./service-worker.js');
     });
   }
+</script>
+
+<script>
+  // 拡大・縮小しても「総重量」を実際に見えている画面の上端へ固定する
+  function updateTotalPosition() {
+    const totalBox = document.querySelector('.total-box');
+    const viewport = window.visualViewport;
+
+    if (!totalBox || !viewport) {
+      return;
+    }
+
+    totalBox.style.top = viewport.offsetTop + 'px';
+    totalBox.style.left = viewport.offsetLeft + 'px';
+    totalBox.style.width = viewport.width + 'px';
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateTotalPosition);
+    window.visualViewport.addEventListener('scroll', updateTotalPosition);
+  }
+
+  window.addEventListener('resize', updateTotalPosition);
+  window.addEventListener('load', updateTotalPosition);
+
+  updateTotalPosition();
 </script>
 
 </body>
